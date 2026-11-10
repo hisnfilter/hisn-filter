@@ -1,0 +1,13 @@
+{
+    "name": "@hisn/core",
+    "version": "0.1.0",
+    "description": "العقل المشترك لفلتر حصن: تطبيع العربية، وفلترة النصوص، وسياسة المحتوى",
+    "license": "AGPL-3.0-only",
+    "type": "module",
+    "main": "src/index.js",
+    "exports": {
+        ".": "./src/index.js",
+        "./lexicon.json": "./data/lexicon.json",
+        "./topics.json": "./data/topics.json"
+    }
+}

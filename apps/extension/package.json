@@ -1,0 +1,27 @@
+{
+  "name": "@hisn/extension",
+  "private": true,
+  "version": "0.1.0",
+  "description": "فلتر حصن — إضافة المتصفح",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "blocklist": "node scripts/build-blocklist.mjs",
+    "test": "node --test \"test/*.test.js\"",
+    "e2e": "node test/e2e/real.mjs",
+    "e2e:shim": "node test/e2e/run.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "jsdom": "^26.1.0"
+  },
+  "dependencies": {
+    "@lofcz/deepfilternet-web": "^0.1.0",
+    "@vladmandic/human": "^3.3.6",
+    "mp4-muxer": "^5.2.1",
+    "mp4box": "^0.5.4",
+    "onnxruntime-web": "1.22",
+    "qrcode-generator": "^2.0.4"
+  }
+}

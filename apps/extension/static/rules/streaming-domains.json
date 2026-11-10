@@ -1,0 +1,29 @@
+{
+ "_note": "خدمات بث مشفّرة (DRM): الجهاز يعرض الصورة ويمنع أي برنامج من قراءتها، فلا يستطيع حصن فحص محتواها. قرار المالكة: لا تُفتح من حصن أصلًا (حجب كامل) بدل فتح باب لمحتوى غير مفحوص.",
+ "domains": [
+  "netflix.com",
+  "nflxvideo.net",
+  "shahid.net",
+  "shahid.mbc.net",
+  "osn.com",
+  "osnplus.com",
+  "starzplay.com",
+  "disneyplus.com",
+  "hbomax.com",
+  "max.com",
+  "primevideo.com",
+  "hulu.com",
+  "tv.apple.com",
+  "paramountplus.com",
+  "peacocktv.com",
+  "crunchyroll.com",
+  "viu.com",
+  "weyyak.com",
+  "tod.tv",
+  "stctv.com",
+  "jawwy.tv",
+  "watchit.com",
+  "bein.com",
+  "beinsports.com"
+ ]
+}

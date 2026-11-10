@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>حصن</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 340px; }
+  .wrap { padding: 14px 14px 12px; }
+  .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .logo { display: flex; align-items: center; gap: 6px; color: var(--brand); font-weight: 800; font-size: 19px; }
+  .logo svg { width: 26px; height: 26px; }
+  .icon-btn { min-height: 40px; width: 40px; padding: 0; border: 0; background: none; color: var(--muted); }
+  .icon-btn svg { width: 24px; height: 24px; }
+  .hero { text-align: center; padding: 6px 0 4px; }
+  .badge { width: 96px; height: 96px; border-radius: 50%; margin: 4px auto 10px; display: grid; place-items: center; background: var(--ok-soft); color: var(--ok); }
+  .badge svg { width: 52px; height: 52px; }
+  .hero h1 { font-size: 24px; margin: 0 0 2px; }
+  .hero p { color: var(--muted); margin: 0; }
+  [data-state="partial"] .badge, [data-state="limited"] .badge { background: var(--warn-soft); color: var(--warn); }
+  [data-state="off"] .badge { background: var(--danger-soft); color: var(--danger); }
+  [data-state="loading"] .badge { background: var(--brand-soft); color: var(--brand); }
+  .site { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 14px; margin: 10px 0 12px; flex-wrap: wrap; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); flex: none; }
+  .site[data-on="false"] .dot { background: var(--warn); }
+  .link { border: 0; background: none; color: var(--brand); font-weight: 700; min-height: 0; padding: 0; text-decoration: underline; }
+  .stack { display: grid; gap: 10px; }
+  .stack button { width: 100%; font-size: 16px; }
+  .outline { border: 1.5px solid var(--brand); color: var(--brand); font-weight: 700; background: var(--card); }
+  .stack svg { width: 22px; height: 22px; }
+  .foot { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--muted); font-size: 13px; margin-top: 12px; }
+  .foot svg { width: 14px; height: 14px; }
+  #help { margin-top: 10px; }
+  #help button { justify-content: flex-start; text-align: start; }
+  #help p { font-size: 14px; color: var(--muted); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main class="wrap" id="app" data-state="loading">
+  <div class="top">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/></svg>
+      حصن
+    </div>
+    <button class="icon-btn" id="openSettings" aria-label="الإعدادات" title="الإعدادات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </div>
+
+  <section class="hero" aria-live="polite">
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path id="mark" d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+    </div>
+    <h1 id="title">جارٍ التحقق…</h1>
+    <p id="sub"></p>
+  </section>
+
+  <div class="site" id="site" hidden><span class="dot" aria-hidden="true"></span><span id="siteText"></span><button class="link" id="siteAction" hidden></button></div>
+
+  <div class="stack" id="main">
+    <button class="primary" id="fix" hidden></button>
+    <button class="primary" id="clean">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/></svg>
+      تنظيف فيديو
+    </button>
+    <button class="outline" id="problem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><path d="M12 17.2v.1"/></svg>
+      عندي مشكلة
+    </button>
+  </div>
+
+  <div class="stack" id="help" hidden>
+    <button id="pWrong">شيء انحجب بالغلط</button>
+    <p id="pWrongHelp" hidden>اضغط عليه في الصفحة، ثم اختر «إظهار» أو «هذا سليم دائمًا».</p>
+    <button id="pShown">شيء غير مناسب ظهر</button>
+    <button id="pBroken">الموقع ما يعمل</button>
+    <p id="pBrokenHelp" hidden></p>
+    <button class="link" id="pBack">رجوع</button>
+  </div>
+
+  <div class="foot">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1zm2 0h6V7a3 3 0 0 0-6 0v3z"/></svg>
+    الفحص على جهازك
+  </div>
+</main>
+<script type="module" src="popup.js"></script>
+</body>
+</html>

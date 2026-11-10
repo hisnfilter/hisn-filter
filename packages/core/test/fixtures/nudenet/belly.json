@@ -1,0 +1,1 @@
+{"width": 294, "height": 316, "dims": [1, 22, 2100], "detections": [{"class": "BELLY_EXPOSED", "score": 0.681104838848114, "box": [164, 167, 63, 40]}, {"class": "FACE_FEMALE", "score": 0.6190323233604431, "box": [173, 51, 38, 35]}]}

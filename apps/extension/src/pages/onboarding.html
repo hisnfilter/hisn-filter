@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مرحبًا بك في فلتر حصن</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .step[hidden] { display: none; }
+  .big { font-size: 26px; }
+  .choice { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .choice button { min-height: 92px; flex-direction: column; font-size: 17px; }
+  .choice button small { color: var(--muted); font-size: 13px; font-weight: 400; }
+  .choice button[aria-pressed="true"] { border: 2px solid var(--brand); background: var(--brand-soft); }
+  .progress { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+    <div><div class="name">فلتر حصن</div><div class="tag">مجاني لوجه الله · كل الفحص على جهازك</div></div>
+  </header>
+
+  <section class="card step" data-step="1">
+    <div class="progress">الخطوة 1 من 3</div>
+    <h1 class="big">من يستخدم هذا الجهاز؟</h1>
+    <p class="muted">نضبط الإعدادات حسب إجابتك، وتستطيع تغييرها لاحقًا.</p>
+    <div class="choice" style="--n:3">
+      <button data-viewer="male">رجل<small>تُضبَّب صور النساء والعورات</small></button>
+      <button data-viewer="female">امرأة<small>تُضبَّب العورات فقط</small></button>
+      <button data-child>جهاز طفل<small>وضع الطفل: كل الحمايات، ويُغيَّر العمر من الإعدادات</small></button>
+    </div>
+  </section>
+
+  <section class="card step" data-step="2" hidden>
+    <div class="progress">الخطوة 2 من 3</div>
+    <h1 class="big">مستوى الحماية</h1>
+    <div class="choice" style="--n:3">
+      <button data-level="light">مخفف<small>العورات والمواقع والألفاظ</small></button>
+      <button data-level="medium" aria-pressed="true">متوسط<small>موصى به</small></button>
+      <button data-level="strict">صارم<small>الصورة كاملة إذا فيها امرأة، وأي شك يُحجب، والمقطع مغبّش حتى يُفحص</small></button>
+    </div>
+    <div class="actions"><button class="primary" data-next>التالي</button></div>
+  </section>
+
+  <section class="card step" data-step="3" hidden>
+    <div class="progress">الخطوة 3 من 3</div>
+    <h1 class="big">رمز القفل (اختياري)</h1>
+    <p class="muted">يمنع إطفاء الحماية أو تغيير إعدادات حصن دون إذنك (لا يقفل الجهاز نفسه ولا يمنع حذف الإضافة). مناسب لأجهزة الأبناء.</p>
+    <div id="ageBox" hidden>
+      <label for="childAge" class="muted">عمر الطفل (يغيّر ما يُحجب من مواضيع)</label>
+      <select id="childAge">
+        <option value="under9">أقل من ٩ سنوات</option>
+        <option value="9to12" selected>من ٩ إلى ١٢</option>
+        <option value="13to15">من ١٣ إلى ١٥</option>
+      </select>
+    </div>
+    <label for="pin1" class="muted">الرمز (4 إلى 8 أرقام)</label>
+    <input id="pin1" class="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off">
+    <label for="pin2" class="muted">تأكيد الرمز</label>
+    <input id="pin2" class="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off">
+    <div class="err" id="err" aria-live="polite"></div>
+    <div class="actions">
+      <button class="primary" id="finishPin">حفظ الرمز والبدء</button>
+      <button id="skipPin">البدء بلا رمز</button>
+    </div>
+  </section>
+
+  <section class="card step" data-step="4" hidden>
+    <h1 class="big">حُفظ الإعداد</h1>
+    <p>حصن يفحص الصور والفيديو والنصوص على جهازك، ولا يرسل أي شيء لأحد.</p>
+    <ul id="layers" class="muted" aria-live="polite"><li>نتحقق من جاهزية طبقات الحماية…</li></ul>
+    <p class="note">ما يُحجب يظهر مضبّبًا. اضغط عليه لترى الخيارات: إظهاره مرة واحدة، أو تعليمه سليمًا دائمًا على هذا الجهاز.</p>
+    <h2 style="margin-top:14px">أكمل حمايتك</h2>
+    <p class="muted">إعدادات مجانية موجودة أصلًا في جوالك وتطبيقاتك:</p>
+    <div class="actions">
+      <a class="btn" href="guides/iphone-screen-time.html">وقت الشاشة في آيفون</a>
+      <a class="btn" href="guides/tiktok.html">تيك توك</a>
+      <a class="btn" href="guides/instagram.html">إنستغرام</a>
+      <a class="btn" href="guides/youtube.html">يوتيوب</a>
+    </div>
+  </section>
+</main>
+<script src="onboarding.js"></script>
+</body>
+</html>

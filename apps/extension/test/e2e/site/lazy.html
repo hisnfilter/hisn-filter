@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تحميل متأخر</title></head>
+<body>
+  <img id="lazy" data-src="woman2.jpg" width="200" alt="">
+  <picture><source srcset="woman.jpg 1x"><img id="pic" src="landscape.jpg" width="200"></picture>
+  <div id="bg" style="width:200px;height:200px;background-image:url(woman.jpg);background-size:cover"></div>
+  <div id="bgland" style="width:200px;height:200px;background-image:url(landscape.jpg);background-size:cover"></div>
+  <img id="swap" src="landscape.jpg" width="200">
+  <script>
+    setTimeout(() => { const i = document.getElementById("lazy"); i.src = i.dataset.src; }, 800);
+    // موقع يغيّر صورة موجودة بعد ظهورها (مثل شرائح العرض)
+    setTimeout(() => { document.getElementById("swap").src = "woman.jpg"; }, 15000);
+  </script>
+</body></html>

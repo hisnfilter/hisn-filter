@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اختبار حماية حصن</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .t { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .t:first-child { border-top: 0; }
+  .ic { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; flex: none; background: var(--brand-soft); color: var(--brand); }
+  .t[data-r="ok"] .ic { background: var(--ok-soft); color: var(--ok); }
+  .t[data-r="fail"] .ic { background: var(--danger-soft); color: var(--danger); }
+  .t[data-r="off"] .ic { background: var(--line); color: var(--muted); }
+  .t small { display: block; color: var(--muted); }
+  #summary { font-size: 20px; font-weight: 800; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+    <div><div class="name">اختبار الحماية</div><div class="tag">بمواد اختبار آمنة، على جهازك</div></div>
+  </header>
+  <section class="card"><div id="summary" aria-live="polite">جارٍ الاختبار…</div></section>
+  <section class="card" id="list"></section>
+  <div class="actions"><button class="primary" id="again">إعادة الاختبار</button></div>
+</main>
+<script type="module" src="selftest.js"></script>
+</body>
+</html>

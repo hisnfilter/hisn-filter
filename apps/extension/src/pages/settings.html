@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إعدادات فلتر حصن</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body.popup { width: 380px; }
+  body.popup .wrap { padding: 14px 12px 16px; }
+  .status { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .status strong { font-size: 16px; }
+  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--text); padding: 18px; width: min(340px, 92vw); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .site { font-weight: 700; direction: ltr; unicode-bidi: isolate; }
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; position: sticky; top: 0; background: var(--bg); padding: 6px 0; z-index: 2; }
+  .tabs button { min-height: 44px; font-size: 14px; padding: 6px 4px; }
+  .tabs button[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); font-weight: 700; }
+  .ex { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .ex button { min-height: 36px; padding: 4px 12px; font-size: 14px; }
+  .ex-head { font-weight: 700; margin-top: 12px; }
+  footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+    <div><div class="name">فلتر حصن</div><div class="tag">الفحص على جهازك، ولا تُرفع صورك أو تصفحك لأي خادم</div></div>
+  </header>
+
+  <section class="card status">
+    <div><strong id="statusText">الحماية تعمل</strong><div class="muted" id="statusSub"></div></div>
+    <label class="switch"><input type="checkbox" id="enabled" aria-label="تشغيل الحماية"><span></span></label>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="أقسام الإعدادات">
+    <button role="tab" data-tab="protect">الحماية</button>
+    <button role="tab" data-tab="lock">القفل والطفل</button>
+    <button role="tab" data-tab="except">الاستثناءات</button>
+    <button role="tab" data-tab="help">المساعدة</button>
+  </nav>
+
+  <div class="group" data-group="protect">
+  <section class="card">
+    <h2>من يستخدم هذا الجهاز؟</h2>
+    <div class="seg" style="--n:2" role="group" aria-label="المستخدم">
+      <button data-viewer="male">رجل</button>
+      <button data-viewer="female">امرأة</button>
+    </div>
+    <p class="muted" style="margin-top:8px" id="viewerHelp"></p>
+  </section>
+  <section class="card">
+    <h2>مستوى الحماية</h2>
+    <div class="seg" style="--n:3" role="group" aria-label="مستوى الحماية">
+      <button data-level="light">مخفف</button>
+      <button data-level="medium">متوسط</button>
+      <button data-level="strict">صارم</button>
+    </div>
+    <p class="muted" id="levelHelp" style="margin-top:8px"></p>
+  </section>
+  <section class="card" id="toggles">
+    <h2>ما يُحجب</h2>
+    <!-- تُبنى المفاتيح من settings.js -->
+  </section>
+  </div>
+
+  <div class="group" data-group="lock" hidden>
+  <section class="card" id="childCard">
+    <div class="row" style="border:0;padding:0">
+      <div class="label"><h2 style="margin:0">وضع الطفل</h2><small>زر واحد يشغّل كل الحمايات المناسبة لعمره</small></div>
+      <label class="switch"><input type="checkbox" id="childMode" aria-label="وضع الطفل"><span></span></label>
+    </div>
+    <div id="childBox" hidden>
+      <div class="seg" style="--n:3;margin-top:10px" role="group" aria-label="عمر الطفل">
+        <button data-age="under9">أقل من 9</button>
+        <button data-age="9to12">9 إلى 12</button>
+        <button data-age="13to15">13 إلى 15</button>
+      </div>
+      <p class="muted" style="margin-top:8px">يشغّل: حماية العقيدة (إخفاء ما يُكتشف من مقاطع السحر والجن والرعب والهالوين في يوتيوب وتيك توك وروبلوكس)، ويوتيوب المقيّد، والبحث الآمن، وحجب المواقع الإباحية والقمار، وإزالة الموسيقى، وإخفاء الألفاظ والشتائم، وتغطية العورات.</p>
+      <p class="muted" id="childLockHint"></p>
+    </div>
+  </section>
+  <section class="card">
+    <h2>القفل</h2>
+    <p class="muted" id="lockText"></p>
+    <div class="actions">
+      <button id="setPin" class="primary"></button>
+      <button id="lockNow" hidden>قفل الآن</button>
+      <button id="removePin" hidden>إزالة القفل</button>
+    </div>
+  </section>
+  <section class="card">
+    <h2>أجهزة أخرى</h2>
+    <p class="muted">يُنقل: المستخدم، والمستوى، ووضع الطفل، وخيارات الحماية. لا يُنقل: رمز القفل، والمواقع المستثناة، وتصحيحاتك. بلا إنترنت ولا حسابات.</p>
+    <div class="actions">
+      <button id="showTransfer" class="primary">رمز النقل</button>
+      <button id="importTransfer">استيراد من جهاز آخر</button>
+    </div>
+  </section>
+  </div>
+
+  <div class="group" data-group="except" hidden>
+  <section class="card" id="siteCard" hidden>
+    <h2>هذا الموقع</h2>
+    <p class="muted">الموقع الحالي: <span class="site" id="siteName"></span></p>
+    <div class="actions">
+      <button id="siteToggle"></button>
+      <button id="hideAccount" hidden>إخفاء حساب في هذا الموقع</button>
+    </div>
+  </section>
+  <section class="card" id="exceptions">
+    <h2>الاستثناءات والتصحيحات</h2>
+    <p class="muted">ما رفعتَ عنه الحماية أو صحّحته. الحذف من هنا يعيد الحماية ولا يحتاج رمزًا.</p>
+    <div id="exceptionList"></div>
+  </section>
+  </div>
+
+  <div class="group" data-group="help" hidden>
+  <section class="card">
+    <h2>اختبار الحماية</h2>
+    <p class="muted">يتأكد في ثوانٍ أن كل طبقة تعمل على هذا الجهاز، بمواد اختبار آمنة.</p>
+    <div class="actions"><a class="btn primary" href="selftest.html" target="_blank">اختبار الحماية</a></div>
+  </section>
+  <section class="card">
+    <h2>تنظيف فيديو من جهازك</h2>
+    <p class="muted">اختر فيديو من جهازك فتحصل على نسخة جديدة: تُفصل الموسيقى عن الكلام، ويُغطّى ما يُكتشف من مخالف. المعالجة على جهازك. شاهد النتيجة قبل الاعتماد عليها.</p>
+    <div class="actions"><a class="btn primary" href="clean-video.html" target="_blank">تنظيف فيديو</a></div>
+  </section>
+  <section class="card">
+    <h2>أدلة الحماية</h2>
+    <p class="muted">إعدادات مجانية في جوالك وتطبيقاتك تكمل عمل حصن.</p>
+    <div class="actions">
+      <a class="btn" href="guides/iphone-screen-time.html" target="_blank">وقت الشاشة في آيفون</a>
+      <a class="btn" href="guides/tiktok.html" target="_blank">تيك توك</a>
+      <a class="btn" href="guides/instagram.html" target="_blank">إنستغرام</a>
+      <a class="btn" href="guides/youtube.html" target="_blank">يوتيوب</a>
+    </div>
+  </section>
+  <section class="card">
+    <h2>الأسئلة الشائعة والأمان والخصوصية</h2>
+    <p class="muted">كل ما تحتاج معرفته: كيف تعمل الحماية، وما حدودها، وماذا يُحفظ وماذا لا، وتنبيه «جهاز جديد» من المواقع.</p>
+    <div class="actions">
+      <a class="btn" href="guides/help.html#faq" target="_blank">الأسئلة الشائعة</a>
+      <a class="btn" href="guides/help.html#security" target="_blank">الأمن والأمان</a>
+      <a class="btn" href="guides/help.html#privacy" target="_blank">سياسة الخصوصية</a>
+    </div>
+  </section>
+  <section class="card">
+    <h2>الخصوصية وحدود الحماية</h2>
+    <p class="muted">الصور والفيديو والصوت تُفحص على جهازك، ولا يوجد خادم لحصن. يُحفظ على الجهاز فقط: إعداداتك، وبصمة رمز القفل، والحسابات المخفية، وتصحيحاتك. يجلب حصن الصور والترجمات من المواقع التي تفتحها لفحصها فقط.</p>
+    <p class="muted">الكشف تقديري: قد يفوته شيء أو يحجب سليمًا، وهنا يفيد «عندي مشكلة». القفل يمنع تخفيف الإعدادات، لكنه لا يمنع حذف الإضافة من المتصفح.</p>
+  </section>
+  </div>
+
+  <footer>مجاني لوجه الله · مفتوح المصدر (AGPL-3.0)، مبني على HaramBlur · النماذج: NudeNet، وHuman، وYAMNet، وDeepFilterNet، وفصل الموسيقى من Ultimate Vocal Remover (UVR)</footer>
+</main>
+
+<dialog id="pinDialog">
+  <form method="dialog" id="pinForm">
+    <h2 id="pinTitle">أدخل رمز القفل</h2>
+    <p class="muted" id="pinHelp"></p>
+    <label for="pinInput" class="muted">الرمز (4 إلى 8 أرقام)</label>
+    <input id="pinInput" class="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off">
+    <div class="err" id="pinErr" aria-live="polite"></div>
+    <div class="actions">
+      <button class="primary" value="ok">تأكيد</button>
+      <button value="cancel" formnovalidate>إلغاء</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="transferDialog">
+  <form method="dialog">
+    <h2>رمز النقل</h2>
+    <p class="muted">على الجوال: افتح الكاميرا ووجّهها للرمز فيفتح تطبيق حصن ويطلب التأكيد. على كمبيوتر آخر: انسخ الرمز والصقه في «استيراد».</p>
+    <div id="qr" style="display:flex;justify-content:center;background:#fff;border-radius:10px;padding:10px;margin:8px 0"></div>
+    <input id="transferCode" type="text" dir="ltr" readonly style="font-size:12px">
+    <p class="muted">رمز القفل لا يُنقل: ضعه على الجهاز الجديد بعد النقل.</p>
+    <div class="actions">
+      <button type="button" id="copyTransfer" class="primary">نسخ الرمز</button>
+      <button value="cancel">إغلاق</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="importDialog">
+  <form method="dialog">
+    <h2>استيراد الإعدادات</h2>
+    <label for="importInput" class="muted">الصق رمز النقل (يبدأ بـ HISN1)</label>
+    <input id="importInput" type="text" dir="ltr" autocomplete="off">
+    <div class="err" id="importErr" aria-live="polite"></div>
+    <div class="actions">
+      <button class="primary" value="ok">استيراد</button>
+      <button value="cancel" formnovalidate>إلغاء</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="accountDialog">
+  <form method="dialog">
+    <h2>إخفاء حساب</h2>
+    <label for="accountInput" class="muted">اسم المستخدم كما يظهر في الرابط، مثل: @example</label>
+    <input id="accountInput" type="text" dir="ltr" autocomplete="off">
+    <div class="actions">
+      <button class="primary" value="ok">إخفاء</button>
+      <button value="cancel">إلغاء</button>
+    </div>
+  </form>
+</dialog>
+<script src="settings.js"></script>
+</body>
+</html>

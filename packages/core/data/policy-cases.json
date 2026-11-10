@@ -1,0 +1,875 @@
+{
+  "_note": "حالات سياسة الصور المشتركة: مصدر واحد للحقيقة تُشغَّل في JS (packages/core/test/policy-cases.test.js) وKotlin (PolicyCasesTest.kt). الحقول: settings فوق الافتراضي لـ viewer، وimage كنتيجة الكشف، وexpect الفعل والسبب.",
+  "cases": [
+    {
+      "name": "غير مفحوص يُضبّب",
+      "viewer": "female",
+      "image": {
+        "analyzed": false
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "not-analyzed"
+      }
+    },
+    {
+      "name": "عري يُغطّى للمستخدمة",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "nudity": 0.9
+      },
+      "expect": {
+        "action": "cover",
+        "reason": "nudity"
+      }
+    },
+    {
+      "name": "جنسي يُغطّى في المخفف",
+      "viewer": "male",
+      "settings": {
+        "level": "light"
+      },
+      "image": {
+        "analyzed": true,
+        "sexual": 0.8
+      },
+      "expect": {
+        "action": "cover",
+        "reason": "sexual"
+      }
+    },
+    {
+      "name": "جنسي تحت حد المخفف يظهر",
+      "viewer": "male",
+      "settings": {
+        "level": "light"
+      },
+      "image": {
+        "analyzed": true,
+        "sexual": 0.7
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "امرأة للرجل تُضبّب",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "امرأة للمرأة تظهر",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "رجل يظهر",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.3,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "طفلة تظهر",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": false,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "منقبة تظهر في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2,
+            "covered": true
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "منقبة تُضبّب في الصارم للرجل",
+      "viewer": "male",
+      "settings": {
+        "level": "strict"
+      },
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2,
+            "covered": true
+          }
+        ]
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "امرأة في المخفف تظهر",
+      "viewer": "male",
+      "settings": {
+        "level": "light"
+      },
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "جنس مجهول للرجل يُضبّب في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "uncertain-person"
+      }
+    },
+    {
+      "name": "جنس مجهول للمرأة يظهر",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.2
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "شخص صغير في الخلفية يُتجاهل",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.005
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "شخص صغير لا يُتجاهل في الصارم",
+      "viewer": "male",
+      "settings": {
+        "level": "strict"
+      },
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.005
+          }
+        ]
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "كرتون أنثى يظهر في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2,
+            "cartoon": true
+          }
+        ]
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "فخذ مكشوف يُغطّى للمستخدمة",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2,
+            "thighSkin": 0.9
+          }
+        ]
+      },
+      "expect": {
+        "action": "cover",
+        "reason": "nudity"
+      }
+    },
+    {
+      "name": "مشهد امرأة للرجل",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.9,
+          "sexual": 0.1
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "scene-woman"
+      }
+    },
+    {
+      "name": "مشهد امرأة للمرأة يظهر",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.9,
+          "sexual": 0.1
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "مشهد إيحائي للمرأة يُضبّب",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.9,
+          "sexual": 0.9
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "scene-sexual"
+      }
+    },
+    {
+      "name": "المشهد لا يُطبّق في المخفف",
+      "viewer": "male",
+      "settings": {
+        "level": "light"
+      },
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.9,
+          "sexual": 0.9
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "فحص ناقص يُضبّب في الصارم",
+      "viewer": "male",
+      "settings": {
+        "level": "strict"
+      },
+      "image": {
+        "analyzed": true,
+        "partial": true
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "partial-analysis"
+      }
+    },
+    {
+      "name": "فحص ناقص يظهر في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "partial": true
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "منقبة بالمشهد تظهر للرجل في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.05,
+          "sexual": 0.0,
+          "covered": 0.95
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "منقبة بالمشهد تُحجب للرجل في الصارم",
+      "viewer": "male",
+      "settings": {
+        "level": "strict"
+      },
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.05,
+          "sexual": 0.0,
+          "covered": 0.95
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "منقبة بالمشهد تظهر للمرأة في الصارم",
+      "viewer": "female",
+      "settings": {
+        "level": "strict"
+      },
+      "image": {
+        "analyzed": true,
+        "scene": {
+          "woman": 0.05,
+          "sexual": 0.0,
+          "covered": 0.95
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "شخص مجهول والمشهد بلا نساء يظهر",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.2
+          }
+        ],
+        "scene": {
+          "woman": 0.02,
+          "sexual": 0.0
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "شخص مجهول والمشهد فيه امرأة يُضبّب",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.2
+          }
+        ],
+        "scene": {
+          "woman": 0.4,
+          "sexual": 0.0
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "uncertain-person"
+      }
+    },
+    {
+      "name": "امرأة مؤكدة تُضبّب ولو قال المشهد لا",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2
+          }
+        ],
+        "scene": {
+          "woman": 0.02,
+          "sexual": 0.0
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "فخذ مجهول الجنس والمشهد بلا نساء يظهر",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.2,
+            "thighSkin": 0.9
+          }
+        ],
+        "scene": {
+          "woman": 0.02,
+          "sexual": 0.0
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "فخذ امرأة يُغطّى ولو قال المشهد لا",
+      "viewer": "female",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.9,
+            "adult": true,
+            "area": 0.2,
+            "thighSkin": 0.9
+          }
+        ],
+        "scene": {
+          "woman": 0.02,
+          "sexual": 0.0
+        }
+      },
+      "expect": {
+        "action": "cover",
+        "reason": "nudity"
+      }
+    },
+    {
+      "name": "مجلس رجال: مجهولا الجنس بجوار رجل واثق والمشهد بلا امرأة يظهر",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.54,
+            "adult": true,
+            "area": 0.16
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.05
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.03
+          }
+        ],
+        "scene": {
+          "woman": 0.2,
+          "sexual": 0.0,
+          "covered": 0.1
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "مجهول الجنس بجوار رجل لكن المشهد يرجّح امرأة يُحجب",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.54,
+            "adult": true,
+            "area": 0.16
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.05
+          }
+        ],
+        "scene": {
+          "woman": 0.45,
+          "sexual": 0.0,
+          "covered": 0.0
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "uncertain-person"
+      }
+    },
+    {
+      "name": "مجهول الجنس بجوار امرأة والمشهد منخفض يُحجب (امرأة)",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.6,
+            "adult": true,
+            "area": 0.16
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.05
+          }
+        ],
+        "scene": {
+          "woman": 0.2,
+          "sexual": 0.0,
+          "covered": 0.0
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    },
+    {
+      "name": "مجلس رجال والمشهد يقول «منقبة» (غترة): يظهر في المتوسط",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.54,
+            "adult": true,
+            "area": 0.16
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.05
+          }
+        ],
+        "scene": {
+          "woman": 0.03,
+          "sexual": 0.0,
+          "covered": 0.9
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      },
+      "settings": {
+        "level": "medium"
+      }
+    },
+    {
+      "name": "المشهد «منقبة» في الصارم للرجل يُحجب",
+      "viewer": "male",
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.54,
+            "adult": true,
+            "area": 0.16
+          },
+          {
+            "gender": "unknown",
+            "genderScore": 0.0,
+            "adult": true,
+            "area": 0.05
+          }
+        ],
+        "scene": {
+          "woman": 0.03,
+          "sexual": 0.0,
+          "covered": 0.9
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "uncertain-person"
+      },
+      "settings": {
+        "level": "strict"
+      }
+    },
+    {
+      "name": "طفل: مشهد مخيف بلا أشخاص يُحجب",
+      "viewer": "male",
+      "settings": {
+        "childMode": true,
+        "blockScaryTopics": true
+      },
+      "image": {
+        "analyzed": true,
+        "people": [],
+        "scene": {
+          "woman": 0.0,
+          "sexual": 0.0,
+          "scary": 0.9
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "scary"
+      }
+    },
+    {
+      "name": "بالغ: المشهد المخيف لا يُحجب بالصورة",
+      "viewer": "male",
+      "settings": {
+        "childMode": false,
+        "blockScaryTopics": true
+      },
+      "image": {
+        "analyzed": true,
+        "people": [],
+        "scene": {
+          "woman": 0.0,
+          "sexual": 0.0,
+          "scary": 0.9
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "طفل: مشهد عادي (0.2) يظهر",
+      "viewer": "male",
+      "settings": {
+        "childMode": true,
+        "blockScaryTopics": true
+      },
+      "image": {
+        "analyzed": true,
+        "people": [],
+        "scene": {
+          "woman": 0.0,
+          "sexual": 0.0,
+          "scary": 0.2
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "رجل واثق + «امرأة» بثقة 0.03 والمشهد بلا امرأة: يظهر (وجه رجل أخطأ فيه النموذج)",
+      "viewer": "male",
+      "settings": {},
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "male",
+            "genderScore": 0.87,
+            "box": [
+              0.2,
+              0.1,
+              0.5,
+              0.8
+            ],
+            "area": 0.4
+          },
+          {
+            "gender": "female",
+            "genderScore": 0.03,
+            "box": [
+              0.8,
+              0.3,
+              0.1,
+              0.2
+            ],
+            "area": 0.02
+          }
+        ],
+        "scene": {
+          "woman": 0.0,
+          "sexual": 0.0,
+          "covered": 0.01
+        }
+      },
+      "expect": {
+        "action": "show",
+        "reason": "clear"
+      }
+    },
+    {
+      "name": "«امرأة» بثقة 0.03 لكن المشهد يرجّح امرأة (0.5): تُغطّى",
+      "viewer": "male",
+      "settings": {},
+      "image": {
+        "analyzed": true,
+        "people": [
+          {
+            "gender": "female",
+            "genderScore": 0.03,
+            "box": [
+              0.3,
+              0.1,
+              0.4,
+              0.8
+            ],
+            "area": 0.3
+          }
+        ],
+        "scene": {
+          "woman": 0.5,
+          "sexual": 0.0,
+          "covered": 0.01
+        }
+      },
+      "expect": {
+        "action": "blur",
+        "reason": "woman"
+      }
+    }
+  ]
+}

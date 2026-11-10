@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><title>اختبار الصوت 2</title></head>
+<body>
+  <!-- ?src=رابط المقطع (مباشر من موقع آخر) أو ?blob=اسم الملف -->
+  <video id="v" width="320" playsinline controls></video>
+  <button id="play" onclick="document.getElementById('v').play()">تشغيل</button>
+  <script>
+    const q = new URLSearchParams(location.search), v = document.getElementById("v");
+    if (/audio-(test|only)/.test(q.get("blob") ?? q.get("src") ?? "")) {
+      const t = document.createElement("track");
+      Object.assign(t, { kind: "captions", src: "audio-test.vtt", srclang: "ar", label: "عربي" });
+      v.appendChild(t);
+    }
+    if (q.get("src")) v.src = q.get("src");
+    else fetch(q.get("blob")).then((r) => r.blob()).then((b) => { v.src = URL.createObjectURL(b); });
+  </script>
+</body>
+</html>

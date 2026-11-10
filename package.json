@@ -1,0 +1,17 @@
+{
+    "name": "hisn-filter",
+    "private": true,
+    "version": "0.1.0",
+    "description": "فلتر حصن — free, on-device content filter for Muslims and families",
+    "license": "AGPL-3.0-only",
+    "type": "module",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "test": "node --test \"packages/core/test/*.test.js\""
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}

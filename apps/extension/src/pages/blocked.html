@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>موقع محجوب — فلتر حصن</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .wrap { max-width: 520px; padding-top: 12vh; text-align: center; }
+  .shield { width: 72px; height: 72px; color: var(--brand); margin: 0 auto 12px; }
+  .site { direction: ltr; unicode-bidi: isolate; font-weight: 700; }
+  .actions { justify-content: center; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12h6"/></svg>
+  <h1>هذا الموقع محجوب</h1>
+  <p class="muted" id="why"></p>
+  <p><span class="site" id="site"></span></p>
+  <div class="card" style="margin-top:16px">
+    <p style="font-size:18px">﴿ قُل لِّلْمُؤْمِنِينَ يَغُضُّوا مِنْ أَبْصَارِهِمْ وَيَحْفَظُوا فُرُوجَهُمْ ۚ ذَٰلِكَ أَزْكَىٰ لَهُمْ ﴾</p>
+    <p class="muted">سورة النور: 30</p>
+  </div>
+  <div class="actions">
+    <button class="primary" id="back">الرجوع</button>
+    <button id="allow">هذا الموقع سليم</button>
+  </div>
+  <div class="err" id="err" aria-live="polite"></div>
+  <dialog id="pinDialog">
+    <form method="dialog">
+      <h2>أدخل رمز القفل</h2>
+      <input id="pinInput" class="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="رمز القفل">
+      <div class="actions"><button class="primary" value="ok">تأكيد</button><button value="cancel">إلغاء</button></div>
+    </form>
+  </dialog>
+</main>
+<script src="blocked.js"></script>
+</body>
+</html>

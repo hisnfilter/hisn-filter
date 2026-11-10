@@ -11,8 +11,8 @@
 | الفئة الأساسية | Utilities (أدوات) |
 | الفئة الثانوية | Lifestyle (نمط الحياة) |
 | السعر | مجاني، بلا مشتريات داخلية |
-| رابط الخصوصية | https://‹الموقع›/hisn/privacy.html |
-| رابط الدعم | https://‹الموقع›/hisn/support.html |
+| رابط الخصوصية | https://hisnfilter.github.io/hisn-filter/site/privacy.html |
+| رابط الدعم | https://hisnfilter.github.io/hisn-filter/site/support.html |
 | فئة الأطفال (Kids) | لا — التطبيق للوالدين والبالغين |
 
 ## النص الترويجي (حتى 170)
@@ -118,7 +118,7 @@ HOW TO TEST (no login needed):
 
 WHY THE IN-APP BROWSER: the filtering must inspect page images before they are shown, which is only possible inside our own WKWebView (and in Safari via our Safari Web Extension, included). We do not modify or redistribute third-party content; users sign in to their own accounts directly on the sites, and Hisn never sees or stores passwords.
 
-PRIVACY: all analysis runs on the device; images are discarded after checking. Nothing is collected or transmitted (App Privacy: Data Not Collected). Privacy policy: <PRIVACY_URL>.
+PRIVACY: all analysis runs on the device; images are discarded after checking. Nothing is collected or transmitted (App Privacy: Data Not Collected). Privacy policy: https://hisnfilter.github.io/hisn-filter/site/privacy.html.
 
 PERMISSIONS: Photos (add only) — to save a video the user cleaned of music. Sensitive Content Analysis — Apple's on-device nudity detection, used as an extra signal.
 
